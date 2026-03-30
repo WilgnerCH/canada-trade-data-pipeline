@@ -39,16 +39,17 @@ def upload_to_drive(file_path, filename):
     service = build("drive", "v3", credentials=creds)
 
     file_metadata = {
-    "name": filename,
-    "parents": ["1ylnUllISklTnJW7CFfdn9Xk9buzRVkuk"]
-}
+        "name": filename,
+        "parents": ["1ylnUllISklTnJW7CFfdn9Xk9buzRVkuk"]  # seu folder ID
+    }
 
     media = MediaFileUpload(file_path, resumable=True)
 
     file = service.files().create(
         body=file_metadata,
         media_body=media,
-        fields="id"
+        fields="id",
+        supportsAllDrives=True
     ).execute()
 
     print("Upload complete. File ID:", file.get("id"))
